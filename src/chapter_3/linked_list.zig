@@ -122,10 +122,33 @@ pub const IntLinkedList = struct {
     pub fn delete(
         self: *IntLinkedList,
         node: *IntNode,
-    ) void {
-        _ = self;
-        _ = node;
-        @panic("TODO: implement IntLinkedList.delete");
+    ) !void {
+        // exit early if left pointer is None
+        const left_ptr: *IntNode = if (node.previous_ptr) |left_node| {
+            left_node;
+        } else {
+            self.allocator.destroy(node);
+            return;
+        };
+        const right_ptr = node.next_ptr;
+
+        // stitch it up
+        left_ptr.next_ptr = right_ptr;
+
+        // reconnect the right node if it's present
+        if (right_ptr) |right_node| {
+            right_node.previous_ptr = left_ptr;
+        }
+
+        // dealloc the node
+        self.allocator.destroy(node);
+    }
+
+    pub fn delete_by_key(self: *IntLinkedList, key: i32) !void {
+        const node = self.search(key);
+        if (node) |node_ptr| {
+            self.delete(node_ptr);
+        }
     }
 };
 
