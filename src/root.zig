@@ -17,6 +17,7 @@ test "basic add functionality" {
     try std.testing.expect(add(3, 7) == 10);
 }
 
+pub const collections = @import("collections.zig");
 pub const chapter_3 = @import("chapter_3.zig");
 
 test {

@@ -8,7 +8,7 @@ const std = @import("std");
 /// A doubly linked list node that holds an `i32`.
 ///
 /// Non-generic version of `Node`, kept as a stepping stone.
-const IntNode = struct {
+pub const IntNode = struct {
     /// The integer stored in this node.
     value: i32,
     /// The node after this one, or `null` if this is the last node.
